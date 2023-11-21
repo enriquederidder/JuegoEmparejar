@@ -25,10 +25,12 @@ class CardAdapter(private val cards: List<Carta>, private val onCardClickListene
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val card = cards[position]
 
-        // Update the UI based on the card's state
-        holder.cardImageView.setImageResource(if (card.isFlipped) card.imageId else R.drawable.poker_svgrepo_com)
+        if (card.isMatched) {
+            holder.cardImageView.setImageResource(card.imageId)
+        } else {
+            holder.cardImageView.setImageResource(if (card.isFlipped) card.imageId else R.drawable.poker_svgrepo_com)
+        }
 
-        // Handle card click event
         holder.itemView.setOnClickListener {
             onCardClickListener.invoke(card)
         }

@@ -1,4 +1,7 @@
-package com.example.juegoemparejar
+package com.example.juegoemparejar.util
+
+import com.example.juegoemparejar.Carta
+import com.example.juegoemparejar.R
 
 val cards = mutableListOf(
     Carta(2, R.drawable.bear_svgrepo_com),
@@ -18,13 +21,3 @@ val cards = mutableListOf(
     Carta(108, R.drawable.dog_face_svgrepo_com),
     Carta(109, R.drawable.mouse_svgrepo_com),
 )
-
-fun <T> MutableList<T>.randomizar() {
-    val rng = java.util.Random()
-    for (i in size - 1 downTo 1) {
-        val j = rng.nextInt(i + 1)
-        val tmp = this[i]
-        this[i] = this[j]
-        this[j] = tmp
-    }
-}
