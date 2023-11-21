@@ -1,13 +1,17 @@
 package com.example.juegoemparejar
 
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import java.util.logging.Handler
 
 class CardAdapter(private val cards: List<Carta>, private val onCardClickListener: (Carta) -> Unit) :
     RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+
+    private val flippedCards: MutableList<Carta> = mutableListOf()
 
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cardImageView: ImageView = itemView.findViewById(R.id.imageView)
@@ -16,7 +20,6 @@ class CardAdapter(private val cards: List<Carta>, private val onCardClickListene
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.itemcard, parent, false)
         return CardViewHolder(view)
-
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {

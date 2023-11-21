@@ -5,52 +5,70 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.os.Handler
+import android.os.Looper
 
 class MainActivity : AppCompatActivity() {
 
-    private val cards = mutableListOf(
-        Carta(2, R.drawable.bear_svgrepo_com),
-        Carta(3, R.drawable.camel_svgrepo_com),
-        Carta(4, R.drawable.bird_svgrepo_com),
-        Carta(5, R.drawable.cat_with_wry_smile_svgrepo_com),
-        Carta(6, R.drawable.crocodile_svgrepo_com),
-        Carta(7, R.drawable.dolphin_svgrepo_com),
-        Carta(8, R.drawable.dog_face_svgrepo_com),
-        Carta(9, R.drawable.mouse_svgrepo_com),
-    )
-
     private lateinit var recyclerView: RecyclerView
+    private lateinit var cardAdapter: CardAdapter
+    private val flippedCards: MutableList<Carta> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Shuffle the cards
-        cards.shuffle()
-
         // Duplicate the cards to ensure pairs
-        cards.addAll(cards.toList())
+        cards.randomizar()
 
         // Exclude the default poker card
-        val filteredCards = cards.filterNot { it.imageId == R.drawable.poker_svgrepo_com }
+        val filteredCards = cards
 
         recyclerView = findViewById(R.id.contenedor)
         recyclerView.layoutManager = GridLayoutManager(this, 4)
 
-        recyclerView.adapter = CardAdapter(filteredCards) { clickedCard ->
+        cardAdapter = CardAdapter(filteredCards) { clickedCard ->
             // Handle card click event
             onCardClick(clickedCard)
         }
+        recyclerView.adapter = cardAdapter
     }
 
     private fun onCardClick(clickedCard: Carta) {
-        // Flip the clicked card
-        clickedCard.flip()
+        // Check if the card is already flipped or matched
+        if (!clickedCard.isFlipped && flippedCards.none { it.id+100 == clickedCard.id }
+            || !clickedCard.isFlipped && flippedCards.none { it.id == clickedCard.id+100}) {
+            // Flip the clicked card
+            clickedCard.flip()
+            // Add the flipped card to the list
+            flippedCards.add(clickedCard)
+
+            // Update the UI
+            cardAdapter.notifyDataSetChanged()
+
+            // Check for matches after a short delay
+            if (flippedCards.size == 2) {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    checkForMatches()
+                }, 700) // Adjust the delay as needed
+            }
+        }
+    }
+
+    private fun checkForMatches() {
+        if (flippedCards[0].id == flippedCards[1].id) {
+            // Cards match, keep them flipped
+            flippedCards.clear()
+        } else {
+            // Cards do not match, flip them back
+            flippedCards.forEach { it.flip() }
+            flippedCards.clear()
+        }
 
         // Update the UI
-        recyclerView.adapter?.notifyDataSetChanged()
+        cardAdapter.notifyDataSetChanged()
 
-        // Implement your logic to check for matches and game completion here
+        // Implement your logic for game completion here
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
