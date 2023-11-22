@@ -49,17 +49,21 @@ class MainActivity : AppCompatActivity(){
         // Handle navigation item clicks
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_item1 -> {
+                R.id.itemAnimales -> {
                     // Handle item 1 click
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-                R.id.nav_item2 -> {
+                R.id.itemComida -> {
                     // Handle item 2 click
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-                // Add more cases for other items
+                R.id.itemPaises -> {
+                    // Handle item 3 click
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
                 else -> false
             }
         }
