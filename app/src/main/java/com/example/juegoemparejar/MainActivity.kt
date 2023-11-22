@@ -1,15 +1,18 @@
 package com.example.juegoemparejar
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Handler
 import android.os.Looper
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.example.juegoemparejar.util.cards
+import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
@@ -29,7 +32,39 @@ class MainActivity : AppCompatActivity() {
             onCardClick(clickedCard)
         }
         recyclerView.adapter = cardAdapter
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navigationView: NavigationView = findViewById(R.id.navigation_view)
+
+        // Setup the ActionBarDrawerToggle
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            findViewById(R.id.toolbar),
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        // Handle navigation item clicks
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_item1 -> {
+                    // Handle item 1 click
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                R.id.nav_item2 -> {
+                    // Handle item 2 click
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                // Add more cases for other items
+                else -> false
+            }
+        }
     }
+
 
     private fun onCardClick(clickedCard: Carta) {
         if (!clickedCard.isFlipped && flippedCards.none { it.id+100 == clickedCard.id }
@@ -59,8 +94,5 @@ class MainActivity : AppCompatActivity() {
         cardAdapter.notifyDataSetChanged()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menucategorias, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
+
 }
