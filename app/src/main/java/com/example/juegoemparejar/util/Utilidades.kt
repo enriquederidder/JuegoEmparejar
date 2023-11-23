@@ -3,7 +3,7 @@ package com.example.juegoemparejar.util
 import com.example.juegoemparejar.Carta
 import com.example.juegoemparejar.R
 
-val cards = mutableListOf(
+val cardsAnimales = mutableListOf(
     Carta(2, R.drawable.bear_svgrepo_com),
     Carta(3, R.drawable.camel_svgrepo_com),
     Carta(4, R.drawable.bird_svgrepo_com),
@@ -44,7 +44,6 @@ val cardsPais = mutableListOf(
     Carta(21, R.drawable.anonymous_flag_of_puerto_rico),
     Carta(22, R.drawable.anonymous_flag_of_the_netherlands),
     Carta(23, R.drawable.australia_tasmania),
-    Carta(24, R.drawable.brazil),
     Carta(25, R.drawable.euflag),
     Carta(26, R.drawable.sillius_flag_basque_country),
     Carta(27, R.drawable.united_states_daniel_mcr_01),
@@ -53,10 +52,8 @@ val cardsPais = mutableListOf(
     Carta(121, R.drawable.anonymous_flag_of_puerto_rico),
     Carta(122, R.drawable.anonymous_flag_of_the_netherlands),
     Carta(123, R.drawable.australia_tasmania),
-    Carta(124, R.drawable.brazil),
     Carta(125, R.drawable.euflag),
     Carta(126, R.drawable.sillius_flag_basque_country),
     Carta(127, R.drawable.united_states_daniel_mcr_01),
     Carta(128, R.drawable.zelus_et_radix_flag_of_colombia),
-
 )

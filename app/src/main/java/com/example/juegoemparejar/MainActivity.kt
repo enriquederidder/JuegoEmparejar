@@ -1,78 +1,44 @@
 package com.example.juegoemparejar
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.os.Handler
-import android.os.Looper
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import com.example.juegoemparejar.util.cards
-import com.google.android.material.navigation.NavigationView
+import com.example.juegoemparejar.util.cardsAnimales
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
     private val flippedCards: MutableList<Carta> = mutableListOf()
+    private var selectedCategory: MutableList<Carta> =
+        cardsAnimales // Por defecto se mostraran las cartas de animales
+    private lateinit var drawerManager: DrawerManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        cards.shuffle()
-        val filteredCards = cards
+        cardsAnimales.shuffle()
 
         recyclerView = findViewById(R.id.contenedor)
         recyclerView.layoutManager = GridLayoutManager(this, 4)
 
-        cardAdapter = CardAdapter(filteredCards) { clickedCard ->
+        cardAdapter = CardAdapter(selectedCategory) { clickedCard ->
             onCardClick(clickedCard)
         }
         recyclerView.adapter = cardAdapter
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navigationView: NavigationView = findViewById(R.id.navigation_view)
 
-        // Setup the ActionBarDrawerToggle
-        val toggle = ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            findViewById(R.id.toolbar),
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        // Handle navigation item clicks
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.itemAnimales -> {
-                    // Handle item 1 click
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    true
-                }
-                R.id.itemComida -> {
-                    // Handle item 2 click
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    true
-                }
-                R.id.itemPaises -> {
-                    // Handle item 3 click
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    true
-                }
-                else -> false
-            }
-        }
+        drawerManager = DrawerManager(this, recyclerView, cardAdapter, flippedCards)
     }
 
 
     private fun onCardClick(clickedCard: Carta) {
-        if (!clickedCard.isFlipped && flippedCards.none { it.id+100 == clickedCard.id }
-            || !clickedCard.isFlipped && flippedCards.none { it.id == clickedCard.id+100}) {
+        if (!clickedCard.isFlipped && flippedCards.none { it.id + 100 == clickedCard.id }
+            || !clickedCard.isFlipped && flippedCards.none { it.id == clickedCard.id + 100 }) {
             clickedCard.flip()
             flippedCards.add(clickedCard)
 
@@ -81,14 +47,16 @@ class MainActivity : AppCompatActivity(){
             if (flippedCards.size == 2) {
                 Handler(Looper.getMainLooper()).postDelayed({
                     checkForMatches()
-                }, 700)
+                }, 500)
             }
         }
     }
 
     private fun checkForMatches() {
-        if (flippedCards[0].id == flippedCards[1].id + 100
-            || flippedCards[0].id + 100 == flippedCards[1].id ) {
+        if (flippedCards[0].id == flippedCards[1].id + 100 ||
+            flippedCards[0].id + 100 == flippedCards[1].id
+        ) {
+
             flippedCards.forEach { it.isMatched = true }
         } else {
             flippedCards.forEach { it.flip() }
