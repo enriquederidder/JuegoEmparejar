@@ -3,7 +3,6 @@ package com.example.juegoemparejar
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,17 +13,15 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
-    private lateinit var buttonReset: Button
     private val flippedCards: MutableList<Carta> = mutableListOf()
     private var selectedCategory: MutableList<Carta> = cardsAnimales // Por defecto se mostraran las cartas de animales
     private lateinit var drawerManager: DrawerManager
-
+    private var tries: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        buttonReset = findViewById(R.id.buttonReset)
 
         cardsAnimales.shuffle()
 
@@ -36,7 +33,8 @@ class MainActivity : AppCompatActivity() {
         }
         recyclerView.adapter = cardAdapter
 
-        drawerManager = DrawerManager(this, recyclerView, cardAdapter, flippedCards)
+        drawerManager = DrawerManager(this, recyclerView, cardAdapter)
+
     }
 
 
@@ -69,11 +67,17 @@ class MainActivity : AppCompatActivity() {
             flippedCards.forEach { it.isMatched = true }
         } else {
             flippedCards.forEach { it.flip() }
+            tries++
         }
 
         flippedCards.clear()
         cardAdapter.notifyDataSetChanged()
         ceckForWin()
+        checkForLose()
     }
-
+    private fun checkForLose() {
+        if (tries == 9) {
+            Toast.makeText(this, "Has perdido", Toast.LENGTH_LONG).show()
+        }
+    }
 }
