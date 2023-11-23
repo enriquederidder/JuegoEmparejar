@@ -3,24 +3,28 @@ package com.example.juegoemparejar
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.juegoemparejar.util.cardsAnimales
+import com.example.juegoemparejar.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
+    private lateinit var buttonReset: Button
     private val flippedCards: MutableList<Carta> = mutableListOf()
-    private var selectedCategory: MutableList<Carta> =
-        cardsAnimales // Por defecto se mostraran las cartas de animales
+    private var selectedCategory: MutableList<Carta> = cardsAnimales // Por defecto se mostraran las cartas de animales
     private lateinit var drawerManager: DrawerManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        buttonReset = findViewById(R.id.buttonReset)
 
         cardsAnimales.shuffle()
 
@@ -37,8 +41,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun onCardClick(clickedCard: Carta) {
-        if (!clickedCard.isFlipped && flippedCards.none { it.id + 100 == clickedCard.id }
-            || !clickedCard.isFlipped && flippedCards.none { it.id == clickedCard.id + 100 }) {
+        if (!clickedCard.isFlipped && flippedCards.none { it.id + 100 == clickedCard.id } ||
+            !clickedCard.isFlipped && flippedCards.none { it.id == clickedCard.id + 100 }) {
             clickedCard.flip()
             flippedCards.add(clickedCard)
 
@@ -49,6 +53,11 @@ class MainActivity : AppCompatActivity() {
                     checkForMatches()
                 }, 500)
             }
+        }
+    }
+    private fun ceckForWin(){
+        if (selectedCategory.all { it.isFlipped }) {
+            Toast.makeText(this, "Has ganado", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -64,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         flippedCards.clear()
         cardAdapter.notifyDataSetChanged()
+        ceckForWin()
     }
-
 
 }
