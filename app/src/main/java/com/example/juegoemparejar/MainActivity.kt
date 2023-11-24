@@ -1,8 +1,11 @@
 package com.example.juegoemparejar
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,25 +17,34 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
     private val flippedCards: MutableList<Carta> = mutableListOf()
-    private var selectedCategory: MutableList<Carta> = cardsAnimales // Por defecto se mostraran las cartas de animales
+    private var selectedCategory: MutableList<Carta> =
+        cardsAnimales // Por defecto se mostraran las cartas de animales
     private lateinit var drawerManager: DrawerManager
-    private var tries: Int = 0
+    private var tries: Int = 15
+    private lateinit var resetButton: Button
+    private var currentCategory: MutableList<Carta> = cardsAnimales
+    private lateinit var textoVidas: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         cardsAnimales.shuffle()
 
         recyclerView = findViewById(R.id.contenedor)
+        resetButton = findViewById(R.id.buttonReset)
+        textoVidas = findViewById(R.id.triesText)
+
         recyclerView.layoutManager = GridLayoutManager(this, 4)
 
         cardAdapter = CardAdapter(selectedCategory) { clickedCard ->
             onCardClick(clickedCard)
         }
-        recyclerView.adapter = cardAdapter
+        resetButton.setOnClickListener {
+            resetGame()
+        }
 
+        recyclerView.adapter = cardAdapter
         drawerManager = DrawerManager(this, recyclerView, cardAdapter)
 
     }
@@ -53,11 +65,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun ceckForWin(){
-        if (selectedCategory.all { it.isFlipped }) {
-            Toast.makeText(this, "Has ganado", Toast.LENGTH_LONG).show()
-        }
-    }
 
     private fun checkForMatches() {
         if (flippedCards[0].id == flippedCards[1].id + 100 ||
@@ -67,17 +74,49 @@ class MainActivity : AppCompatActivity() {
             flippedCards.forEach { it.isMatched = true }
         } else {
             flippedCards.forEach { it.flip() }
-            tries++
+            tries--
         }
 
         flippedCards.clear()
         cardAdapter.notifyDataSetChanged()
         ceckForWin()
         checkForLose()
+        setText()
     }
-    private fun checkForLose() {
-        if (tries == 9) {
-            Toast.makeText(this, "Has perdido", Toast.LENGTH_LONG).show()
+
+    private fun resetGame() {
+        // Reset all cards
+        cardsAnimales.forEach { it.isFlipped = false; it.isMatched = false }
+        cardsComida.forEach { it.isFlipped = false; it.isMatched = false }
+        cardsPais.forEach { it.isFlipped = false; it.isMatched = false }
+
+        tries = 15
+        setText()
+
+        selectedCategory.shuffle()
+
+        cardAdapter.setNewData(selectedCategory)
+        cardAdapter.notifyDataSetChanged()
+    }
+
+    private fun ceckForWin() {
+        if (selectedCategory.all { it.isFlipped }) {
+            Toast.makeText(this, "Has ganado", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun checkForLose() {
+        if (tries == 0) {
+            Toast.makeText(this, "Has perdido", Toast.LENGTH_LONG).show()
+            resetGame()
+        }
+    }
+
+    fun getCurrentCategory(): MutableList<Carta> {
+        return currentCategory
+    }
+
+    private fun setText() {
+        textoVidas.text = tries.toString()
     }
 }

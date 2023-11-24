@@ -12,10 +12,5 @@
         android:id="@+id/itemPaises"
         android:icon="@android:drawable/btn_star_big_on"
         android:title="Paises" />
-    <item
-        android:id="@+id/itemReset"
-        android:title="Reset"
-        />
-
 
 </menu>

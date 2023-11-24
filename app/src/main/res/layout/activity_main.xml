@@ -56,6 +56,31 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/anonymous_flag_of_the_netherlands" />
 
+        <TextView
+            android:id="@+id/triesText"
+            android:layout_width="31dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="24dp"
+            android:text="15"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toStartOf="@+id/buttonReset"
+            app:layout_constraintHorizontal_bias="0.765"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="63dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="25dp"
+            android:text="Vidas:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toStartOf="@+id/triesText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- NavigationView for the drawer -->

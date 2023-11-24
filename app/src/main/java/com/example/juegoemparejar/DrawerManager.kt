@@ -1,6 +1,5 @@
 package com.example.juegoemparejar
 
-import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,6 +15,7 @@ class DrawerManager(
 
     private val drawerLayout: DrawerLayout = activity.findViewById(R.id.drawer_layout)
     private val navigationView: NavigationView = activity.findViewById(R.id.navigation_view)
+
     init {
         setupDrawer()
     }
@@ -41,24 +41,15 @@ class DrawerManager(
             R.id.itemAnimales -> cardsAnimales
             R.id.itemComida -> cardsComida
             R.id.itemPaises -> cardsPais
-            R.id.itemReset -> {
-                resetAllCategories()
-                drawerLayout.closeDrawer(GravityCompat.START)
-                return true
-            }
             else -> return false
         }
+
+        activity.getCurrentCategory().clear()
+        activity.getCurrentCategory().addAll(selectedCategory) // Set the current category
 
         selectedCategory.shuffle()
         cardAdapter.setNewData(selectedCategory)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }
-    private fun resetAllCategories() {
-        cardsAnimales.forEach { it.imageId = R.drawable.poker_svgrepo_com }
-        cardsComida.forEach { it.imageId = R.drawable.poker_svgrepo_com }
-        cardsPais.forEach { it.imageId = R.drawable.poker_svgrepo_com }
-
-        cardAdapter.reset()
     }
 }

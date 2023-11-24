@@ -16,19 +16,6 @@ class CardAdapter(
         val cardImageView: ImageView = itemView.findViewById(R.id.imageView)
     }
 
-    fun setNewData(newCards: List<Carta>) {
-        cards = newCards
-        notifyDataSetChanged()
-    }
-    fun reset() {
-        cards.forEach {
-            it.isFlipped = false
-            it.isMatched = false
-            it.imageId = R.drawable.poker_svgrepo_com
-        }
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.itemcard, parent, false)
         return CardViewHolder(view)
@@ -50,5 +37,10 @@ class CardAdapter(
 
     override fun getItemCount(): Int {
         return cards.size
+    }
+
+    fun setNewData(newCards: List<Carta>) {
+        cards = newCards
+        notifyDataSetChanged()
     }
 }
