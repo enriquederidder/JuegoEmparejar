@@ -2,15 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/itemAnimales"
-        android:icon="@android:drawable/btn_star_big_on"
+        android:icon="@drawable/bear_svgrepo_com"
         android:title="Aniamles" />
     <item
         android:id="@+id/itemComida"
-        android:icon="@android:drawable/btn_star_big_on"
+        android:icon="@drawable/pizza_svgrepo_com"
         android:title="Comida" />
     <item
         android:id="@+id/itemPaises"
-        android:icon="@android:drawable/btn_star_big_on"
+        android:icon="@drawable/euflag"
         android:title="Paises" />
+    <item
+        android:id="@+id/itemRest"
+        android:icon="@drawable/baseline_restart_alt_24"
+        android:title="Rest" />
 
 </menu>

@@ -1,6 +1,5 @@
 package com.example.juegoemparejar
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,12 +16,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var cardAdapter: CardAdapter
     private val flippedCards: MutableList<Carta> = mutableListOf()
-    private var selectedCategory: MutableList<Carta> =
+    var selectedCategory: MutableList<Carta> =
         cardsAnimales // Por defecto se mostraran las cartas de animales
     private lateinit var drawerManager: DrawerManager
     private var tries: Int = 15
     private lateinit var resetButton: Button
-    private var currentCategory: MutableList<Carta> = cardsAnimales
     private lateinit var textoVidas: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,19 +82,12 @@ class MainActivity : AppCompatActivity() {
         setText()
     }
 
-    private fun resetGame() {
-        // Reset all cards
-        cardsAnimales.forEach { it.isFlipped = false; it.isMatched = false }
-        cardsComida.forEach { it.isFlipped = false; it.isMatched = false }
-        cardsPais.forEach { it.isFlipped = false; it.isMatched = false }
-
+    fun resetGame() {
+        selectedCategory.forEach { it.isFlipped = false; it.isMatched = false }
         tries = 15
         setText()
-
         selectedCategory.shuffle()
-
         cardAdapter.setNewData(selectedCategory)
-        cardAdapter.notifyDataSetChanged()
     }
 
     private fun ceckForWin() {
@@ -111,11 +102,6 @@ class MainActivity : AppCompatActivity() {
             resetGame()
         }
     }
-
-    fun getCurrentCategory(): MutableList<Carta> {
-        return currentCategory
-    }
-
     private fun setText() {
         textoVidas.text = tries.toString()
     }

@@ -41,14 +41,15 @@ class DrawerManager(
             R.id.itemAnimales -> cardsAnimales
             R.id.itemComida -> cardsComida
             R.id.itemPaises -> cardsPais
+            R.id.itemRest -> {
+                activity.resetGame()
+                drawerLayout.closeDrawer(GravityCompat.START)
+                return true
+            }
             else -> return false
         }
-
-        activity.getCurrentCategory().clear()
-        activity.getCurrentCategory().addAll(selectedCategory) // Set the current category
-
-        selectedCategory.shuffle()
-        cardAdapter.setNewData(selectedCategory)
+        activity.selectedCategory = selectedCategory
+        activity.resetGame()
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
