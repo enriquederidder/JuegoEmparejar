@@ -35,7 +35,7 @@ class DrawerManager(
             handleNavigationItem(menuItem.itemId)
         }
     }
-
+    // Control de los clics en los elementos del menú de navegación
     private fun handleNavigationItem(itemId: Int): Boolean {
         val selectedCategory = when (itemId) {
             R.id.itemAnimales -> cardsAnimales
@@ -43,11 +43,13 @@ class DrawerManager(
             R.id.itemPaises -> cardsPais
             R.id.itemRest -> {
                 activity.resetGame()
+                // Ciera el drawer al acer en click en el elemento, a mi me gusta asi.
                 drawerLayout.closeDrawer(GravityCompat.START)
                 return true
             }
             else -> return false
         }
+        // Actualiza la lista de cartas seleccionadas y resetea el juego
         activity.selectedCategory = selectedCategory
         activity.resetGame()
         drawerLayout.closeDrawer(GravityCompat.START)

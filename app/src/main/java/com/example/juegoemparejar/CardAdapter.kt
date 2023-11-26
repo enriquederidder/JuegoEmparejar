@@ -24,12 +24,14 @@ class CardAdapter(
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val card = cards[position]
 
+        // Pone el imagen corespondienta al estado
         if (card.isMatched) {
             holder.cardImageView.setImageResource(card.imageId)
         } else {
             holder.cardImageView.setImageResource(if (card.isFlipped) card.imageId else R.drawable.poker_svgrepo_com)
         }
 
+        // Listener para cuando se hace click en una carta
         holder.itemView.setOnClickListener {
             onCardClickListener.invoke(card)
         }

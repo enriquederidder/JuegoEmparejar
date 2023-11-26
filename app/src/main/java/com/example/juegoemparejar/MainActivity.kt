@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     var selectedCategory: MutableList<Carta> =
         cardsAnimales // Por defecto se mostraran las cartas de animales
     private lateinit var drawerManager: DrawerManager
-    private var tries: Int = 15
+    private var vidas: Int = 15
     private lateinit var resetButton: Button
     private lateinit var textoVidas: TextView
 
@@ -72,20 +72,20 @@ class MainActivity : AppCompatActivity() {
             flippedCards.forEach { it.isMatched = true }
         } else {
             flippedCards.forEach { it.flip() }
-            tries--
+            vidas--
         }
 
         flippedCards.clear()
         cardAdapter.notifyDataSetChanged()
         ceckForWin()
         checkForLose()
-        setText()
+        actualizarVidas()
     }
 
     fun resetGame() {
         selectedCategory.forEach { it.isFlipped = false; it.isMatched = false }
-        tries = 15
-        setText()
+        vidas = 15
+        actualizarVidas()
         selectedCategory.shuffle()
         cardAdapter.setNewData(selectedCategory)
     }
@@ -97,12 +97,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForLose() {
-        if (tries == 0) {
+        if (vidas == 0) {
             Toast.makeText(this, "Has perdido", Toast.LENGTH_LONG).show()
             resetGame()
         }
     }
-    private fun setText() {
-        textoVidas.text = tries.toString()
+    private fun actualizarVidas() {
+        textoVidas.text = vidas.toString()
     }
 }
