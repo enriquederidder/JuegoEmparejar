@@ -5,7 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-
+/**
+ * Adaptador para gestionar la visualizacion de tarjetas en un RecyclerView.
+ *
+ * @param cards Lista de objetos Card a mostrar.
+ * @param onCardClickListener Listener para gestionar los eventos de clic de las tarjetas.
+ */
 class CardAdapter(
     private var cards: List<Carta>,
     private val onCardClickListener: (Carta) -> Unit
@@ -20,7 +25,11 @@ class CardAdapter(
         val view = LayoutInflater.from(parent.context).inflate(R.layout.itemcard, parent, false)
         return CardViewHolder(view)
     }
-
+    /**
+     * Vincula los datos de una tarjeta al ViewHolder correspondiente.
+     *
+     * @param position Posición de la tarjeta en el conjunto de datos.
+     */
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val card = cards[position]
 

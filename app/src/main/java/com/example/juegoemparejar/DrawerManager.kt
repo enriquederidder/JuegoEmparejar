@@ -6,7 +6,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.juegoemparejar.util.*
 import com.google.android.material.navigation.NavigationView
-
+/**
+ * Gestiona la configuración y las interacciones del navigation drawer en MainActivity.
+ *
+ * @property activity Instancia de la actividad principal.
+ * @property recyclerView El RecyclerView utilizado para mostrar las cartas.
+ * @property cardAdapter El adaptador para gestionar la visualización de las cartas en el RecyclerView.
+ */
 class DrawerManager(
     private val activity: MainActivity,
     private val recyclerView: RecyclerView,
@@ -24,7 +30,7 @@ class DrawerManager(
         val toggle = ActionBarDrawerToggle(
             activity,
             drawerLayout,
-            activity.findViewById(R.id.toolbar),
+            activity.findViewById(R.id.toolbar),// opcional
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
@@ -35,8 +41,13 @@ class DrawerManager(
             handleNavigationItem(menuItem.itemId)
         }
     }
-    // Control de los clics en los elementos del menú de navegación
-    private fun handleNavigationItem(itemId: Int): Boolean {
+
+    /**
+     * Maneja la selección de elementos en el menú de navegación.
+     *
+     * @param itemId El ID del elemento del menú seleccionado.
+     * @return True si el evento de selección fue manejado con éxito, false en caso contrario.
+     */    private fun handleNavigationItem(itemId: Int): Boolean {
         val selectedCategory = when (itemId) {
             R.id.itemAnimales -> cardsAnimales
             R.id.itemComida -> cardsComida
@@ -47,6 +58,7 @@ class DrawerManager(
                 drawerLayout.closeDrawer(GravityCompat.START)
                 return true
             }
+
             else -> return false
         }
         // Actualiza la lista de cartas seleccionadas y resetea el juego

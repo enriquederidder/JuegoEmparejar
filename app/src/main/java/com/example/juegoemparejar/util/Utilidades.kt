@@ -3,7 +3,7 @@ package com.example.juegoemparejar.util
 import com.example.juegoemparejar.Carta
 import com.example.juegoemparejar.R
 
-//segurnamente habra mejor manera de hacer esto, pero era mas facil asi
+// Segurnamente habra mejor manera de hacer esto, pero era mas facil asi
 val cardsAnimales = mutableListOf(
     Carta(2, R.drawable.bear_svgrepo_com),
     Carta(3, R.drawable.camel_svgrepo_com),

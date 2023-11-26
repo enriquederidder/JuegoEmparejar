@@ -47,7 +47,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    /**
+     * Maneja el evento click cuando se hace click en una carta.
+     *
+     * @param clickedCard la carta que se ha pulsado.
+     */
     private fun onCardClick(clickedCard: Carta) {
         if (!clickedCard.isFlipped && flippedCards.none { it.id + 100 == clickedCard.id } ||
             !clickedCard.isFlipped && flippedCards.none { it.id == clickedCard.id + 100 }) {
@@ -64,11 +68,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Comprueba si las dos cartas volteadas en el juego de forman una pareja.
+     * Actualiza el estado del juego en consecuencia, marcando las cartas como emparejadas o reduciendo las vidas.
+     * Borra la lista de cartas volteadas, notifica al adaptador y comprueba las condiciones de ceckForWin y checkForLose.
+     */
     private fun checkForMatches() {
         if (flippedCards[0].id == flippedCards[1].id + 100 ||
             flippedCards[0].id + 100 == flippedCards[1].id
         ) {
-
             flippedCards.forEach { it.isMatched = true }
         } else {
             flippedCards.forEach { it.flip() }
@@ -92,7 +100,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun ceckForWin() {
         if (selectedCategory.all { it.isFlipped }) {
-            Toast.makeText(this, "Has ganado", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this, "Has ganado, " +
+                        "si quieres jugar otravez darle al botton reset", Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -102,6 +113,7 @@ class MainActivity : AppCompatActivity() {
             resetGame()
         }
     }
+
     private fun actualizarVidas() {
         textoVidas.text = vidas.toString()
     }
